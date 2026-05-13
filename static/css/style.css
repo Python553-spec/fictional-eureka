@@ -1,0 +1,67 @@
+body {
+    background-color: #accedf;
+}
+
+.cover  {
+    width: 100%;
+}
+
+h1 {
+    text-align: center;
+    color: gray;
+    font-family: cursive;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    font-family: sans-serif;
+    margin: 40px auto;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px #000000;
+    padding: 5px 40px 40px 40px;
+    background: linear-gradient(to right bottom, rgb(247, 246, 246) 10%, #e0deea, rgb(238, 221, 221)  );
+}
+
+
+.full-name, .phone {
+    display: flex;
+    flex-direction: end;
+}
+
+.full-name input {
+    width: 50%;
+}
+
+#code {
+    width: 12%;
+}
+
+#phone {
+    width: 80%;
+}
+
+input:first-child {
+    margin-right: 20px;
+}
+
+input, button, select {
+    padding: 10px 20px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 1px 1px 5px #222;
+    font-size: 20px;
+}
+
+
+button {
+    cursor: pointer;
+}   
+
+button:active {
+    box-shadow: inset 1px 1px 5px #222;
+    background-color: rgb(134, 234, 163);
+    color: #eee;
+}

@@ -1,0 +1,48 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{%static/css/style.css}">
+    <title>Document</title>
+</head>
+<body>
+    <h1>1 Bugalterya</h1>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Sherbek </title>
+</head>
+<body>
+    <div class="cover">
+        <form action="" method="post">
+            {% csrf_token %}
+            <h1>Person form</h1>
+            <div class="full-name">
+                <input type="text" id="name" placeholder="Name" name="name">
+                <input type="text" id="surname" placeholder="Surname" name="surname">
+            </div>
+            <input type="number" id="age" placeholder="Age" name="age">
+            <input type="email" id="email" placeholder="Email" name="email">
+            <div class="phone">
+                <input type="tel" id="code" placeholder="+99899" name="phone">
+                <input type="tel" id="phone" placeholder="1234567" name="phone">
+            </div>
+            <select name="sex" id="" placeholder="sex">
+                <option placeholder="sex" value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+            <button type="submit">Ruyxatdan Utish</button>
+        </form>
+    </div>
+</body>
+</html>
