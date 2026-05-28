@@ -1,7 +1,8 @@
-from django.contrib import admin
 from django.urls import path
-from .views import index
+from . import views
 
 urlpatterns = [
-    path('',index,name="index"),
+    path('', views.index, name='index'),
+    path('success/', views.success_view, name='success_page'),
+    path('logout/', views.logout_view, name='logout'), # Mana bu qator
 ]

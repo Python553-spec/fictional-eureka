@@ -1,48 +1,105 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{%static/css/style.css}">
-    <title>Document</title>
-</head>
-<body>
-    <h1>1 Bugalterya</h1>
-</body>
-</html> -->
-
-
-<!DOCTYPE html>
 {% load static %}
-<html lang="en">
-
+<!DOCTYPE html>
+<html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEM × CS2 — Ro'yxatdan o'tish</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <title>Sherbek </title>
 </head>
 <body>
-    <div class="cover">
-        <form action="" method="post">
-            {% csrf_token %}
-            <h1>Person form</h1>
-            <div class="full-name">
-                <input type="text" id="name" placeholder="Name" name="name">
-                <input type="text" id="surname" placeholder="Surname" name="surname">
-            </div>
-            <input type="number" id="age" placeholder="Age" name="age">
-            <input type="email" id="email" placeholder="Email" name="email">
-            <div class="phone">
-                <input type="tel" id="code" placeholder="+99899" name="phone">
-                <input type="tel" id="phone" placeholder="1234567" name="phone">
-            </div>
-            <select name="sex" id="" placeholder="sex">
-                <option placeholder="sex" value="male">Male</option>
-                <option value="female">Female</option>
-            </select>
-            <button type="submit">Ruyxatdan Utish</button>
-        </form>
+
+<div class="particles">
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+</div>
+
+<div class="main-card">
+    <div class="rarity-stripe">
+        <div class="rs rs-gold"></div>
+        <div class="rs rs-pink"></div>
+        <div class="rs rs-purple"></div>
+        <div class="rs rs-blue"></div>
+        <div class="rs rs-gray"></div>
     </div>
+
+    <div class="card-header">
+        <div class="logo-row">
+            <div class="crosshair-logo">
+                <div class="ch-v"></div>
+                <div class="ch-h"></div>
+                <div class="ch-dot"></div>
+            </div>
+            <div class="brand">
+                <span class="brand-stem">STEM</span>
+                <span class="brand-sep">×</span>
+                <span class="brand-cs">CS2</span>
+            </div>
+        </div>
+        <div class="header-title">REGISTRATION FORM</div>
+        <div class="header-sub">O'YINCHI MA'LUMOTLARINI KIRITING</div>
+    </div>
+
+    <form method="POST" class="reg-form">
+        {% csrf_token %}
+        
+        <div class="form-grid">
+            <div class="field-group">
+                <label class="field-label">ISMI</label>
+                <div class="input-wrap">
+                    <input type="text" name="ismi" class="field-input" placeholder="Ismingizni kiriting" required>
+                    <div class="input-focus-bar"></div>
+                </div>
+            </div>
+            <div class="field-group">
+                <label class="field-label">FAMILYA</label>
+                <div class="input-wrap">
+                    <input type="text" name="familya" class="field-input" placeholder="Familyangizni kiriting" required>
+                    <div class="input-focus-bar"></div>
+                </div>
+            </div>
+            <div class="field-group">
+                <label class="field-label">TELEFON RAQAM</label>
+                <div class="input-wrap">
+                    <input type="tel" name="phone" class="field-input" placeholder="+998" required>
+                    <div class="input-focus-bar"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-label">
+            <div class="sl-text">SOCIAL LINKS</div>
+            <div class="sl-line"></div>
+        </div>
+
+        <div class="form-grid">
+            <div class="field-group">
+                <label class="field-label"><span class="stem-icon">S</span> STEM USERNAME</label>
+                <div class="input-wrap">
+                    <input type="text" name="stem_username" class="field-input" placeholder="Steam ID/Nickname">
+                    <div class="input-focus-bar"></div>
+                </div>
+            </div>
+            <div class="field-group">
+                <label class="field-label"><span class="tg-icon">@</span> TELEGRAM</label>
+                <div class="input-wrap">
+                    <input type="text" name="telegram_username" class="field-input" placeholder="@username">
+                    <div class="input-focus-bar"></div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn">
+            <span class="btn-bg"></span>
+            <span class="btn-text">YUBORISH</span>
+            <span class="btn-arrow">→</span>
+        </button>
+    </form>
+
+    <div class="card-footer">
+        STEM TOURNAMENT SYSTEM © 2026
+    </div>
+</div>
+
 </body>
 </html>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">

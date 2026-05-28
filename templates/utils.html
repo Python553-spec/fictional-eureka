@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h2>Telefon raqamingizga kod yuborildi. Iltimos, kiriting:</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="code" placeholder="4 xonali kod" required>
+        <button type="submit">Tasdiqlash</button>
+    </form>
+</body>
+</html>

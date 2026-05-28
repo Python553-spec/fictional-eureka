@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS2 — Qurol Arsenali</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#06080f;
+  --bg2:#090d18;
+  --surface:#0c1220;
+  --card:#101828;
+  --card-h:#131e30;
+  --gold:#e8a030;
+  --gold2:#f0b84a;
+  --gold-dim:rgba(232,160,48,0.12);
+  --ct:#4a9eff;
+  --t:#ff7c3a;
+  --both:#a855f7;
+  --text:#c8d4e8;
+  --muted:#4a5a72;
+  --border:rgba(255,255,255,0.05);
+  --border-g:rgba(232,160,48,0.2);
+}
+
+body{
+  font-family:'Barlow',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* Scan lines overlay */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.04) 2px,rgba(0,0,0,0.04) 4px);
+  pointer-events:none;
+  z-index:999;
+}
+
+/* Grid bg */
+body::after{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(58,123,213,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(58,123,213,0.04) 1px,transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;
+  z-index:0;
+}
+
+.wrap{
+  max-width:1360px;
+  margin:0 auto;
+  padding:0 28px 80px;
+  position:relative;
+  z-index:1;
+}
+
+/* ===== HEADER ===== */
+header{
+  text-align:center;
+  padding:70px 0 60px;
+}
+
+.tag{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:var(--gold-dim);
+  border:1px solid var(--border-g);
+  color:var(--gold);
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  padding:6px 16px;
+  border-radius:2px;
+  margin-bottom:24px;
+}
+
+.tag::before,.tag::after{content:'◆';font-size:6px;opacity:0.6}
+
+h1{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(42px,8vw,90px);
+  font-weight:900;
+  line-height:0.9;
+  letter-spacing:-1px;
+  text-transform:uppercase;
+  color:#fff;
+  margin-bottom:8px;
+}
+
+h1 em{
+  font-style:normal;
+  color:var(--gold);
+  -webkit-text-stroke:1px var(--gold);
+}
+
+.sub{
+  font-size:15px;
+  color:var(--muted);
+  letter-spacing:2px;
+  font-weight:400;
+  margin-top:16px;
+}
+
+.divider{
+  width:100%;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--border-g) 20%,var(--border-g) 80%,transparent);
+  margin-top:40px;
+}
+
+/* Stats strip */
+.stats-strip{
+  display:flex;
+  justify-content:center;
+  gap:0;
+  margin:24px 0 0;
+}
+
+.stat-item{
+  text-align:center;
+  padding:16px 36px;
+  border-left:1px solid var(--border);
+}
+
+.stat-item:first-child{border-left:none}
+
+.stat-num{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:32px;
+  font-weight:900;
+  color:#fff;
+  display:block;
+}
+
+.stat-lbl{
+  font-size:11px;
+  color:var(--muted);
+  letter-spacing:2px;
+  text-transform:uppercase;
+  display:block;
+  margin-top:2px;
+}
+
+/* ===== FILTER BAR ===== */
+.filter-bar{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin:48px 0 32px;
+  flex-wrap:wrap;
+}
+
+.filter-lbl{
+  font-size:11px;
+  color:var(--muted);
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin-right:8px;
+}
+
+.filter-btn{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  padding:8px 20px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--muted);
+  border-radius:2px;
+  cursor:pointer;
+  transition:all 0.2s;
+}
+
+.filter-btn:hover{border-color:var(--border-g);color:var(--gold)}
+.filter-btn.active{background:var(--gold);border-color:var(--gold);color:#000}
+
+/* ===== SECTION ===== */
+.section{margin-bottom:56px}
+
+.sec-head{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-bottom:20px;
+}
+
+.sec-icon{
+  width:4px;
+  height:32px;
+  background:var(--gold);
+  border-radius:2px;
+  flex-shrink:0;
+}
+
+.sec-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:#fff;
+}
+
+.sec-line{flex:1;height:1px;background:var(--border)}
+
+.sec-count{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:11px;
+  color:var(--muted);
+  letter-spacing:2px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:4px 10px;
+  border-radius:2px;
+}
+
+/* ===== GRID ===== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+  gap:14px;
+}
+
+/* ===== CARD ===== */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:4px;
+  overflow:hidden;
+  cursor:pointer;
+  position:relative;
+  transition:transform 0.25s,border-color 0.25s,box-shadow 0.25s;
+  display:flex;
+  flex-direction:column;
+}
+
+.card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(232,160,48,0.03) 0%,transparent 50%);
+  opacity:0;
+  transition:opacity 0.25s;
+  pointer-events:none;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(232,160,48,0.3);
+  box-shadow:0 20px 40px rgba(0,0,0,0.5),0 0 0 1px rgba(232,160,48,0.1);
+}
+
+.card:hover::before{opacity:1}
+
+/* Corner accent */
+.card::after{
+  content:'';
+  position:absolute;
+  top:0;right:0;
+  width:0;height:0;
+  border-style:solid;
+  border-width:0 24px 24px 0;
+  border-color:transparent rgba(232,160,48,0.2) transparent transparent;
+  transition:border-color 0.25s;
+}
+
+.card:hover::after{border-color:transparent var(--gold) transparent transparent}
+
+/* Image area */
+.img-wrap{
+  background:linear-gradient(145deg,#070e1c 0%,#0a1528 100%);
+  height:140px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+  padding:16px 24px;
+}
+
+.img-wrap::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:0;right:0;
+  height:48px;
+  background:linear-gradient(transparent,var(--card));
+}
+
+.img-wrap img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  filter:drop-shadow(0 6px 16px rgba(0,0,0,0.6));
+  transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1),filter 0.35s;
+  position:relative;
+  z-index:1;
+}
+
+.card:hover .img-wrap img{
+  transform:scale(1.1) translateY(-4px);
+  filter:drop-shadow(0 12px 24px rgba(232,160,48,0.2)) drop-shadow(0 4px 8px rgba(0,0,0,0.8));
+}
+
+/* Number badge */
+.card-num{
+  position:absolute;
+  top:10px;left:10px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:11px;
+  font-weight:700;
+  color:var(--muted);
+  letter-spacing:1px;
+  z-index:2;
+}
+
+/* Body */
+.card-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column}
+
+.card-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:6px;
+}
+
+.card-name{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:18px;
+  font-weight:800;
+  color:#fff;
+  letter-spacing:0.5px;
+  line-height:1;
+}
+
+.badge{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  padding:3px 9px;
+  border-radius:2px;
+  text-transform:uppercase;
+  flex-shrink:0;
+  margin-top:2px;
+}
+
+.badge-ct{background:rgba(74,158,255,0.1);color:var(--ct);border:1px solid rgba(74,158,255,0.2)}
+.badge-t{background:rgba(255,124,58,0.1);color:var(--t);border:1px solid rgba(255,124,58,0.2)}
+.badge-both{background:rgba(168,85,247,0.1);color:var(--both);border:1px solid rgba(168,85,247,0.2)}
+
+.card-desc{
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.55;
+  margin-bottom:14px;
+  flex:1;
+}
+
+/* Stats */
+.stats{margin-bottom:14px}
+
+.stat-r{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:6px;
+}
+
+.s-lbl{
+  font-size:10px;
+  color:var(--muted);
+  width:48px;
+  flex-shrink:0;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+}
+
+.s-bg{
+  flex:1;
+  height:3px;
+  background:rgba(255,255,255,0.05);
+  border-radius:1px;
+  overflow:hidden;
+}
+
+.s-fill{height:100%;border-radius:1px;transition:width 0.8s cubic-bezier(0.23,1,0.32,1)}
+.s-red{background:linear-gradient(90deg,#e24b4b,#ff6b6b)}
+.s-blue{background:linear-gradient(90deg,#3a7bd5,#60a5fa)}
+.s-green{background:linear-gradient(90deg,#22c55e,#4ade80)}
+
+.s-val{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:12px;
+  font-weight:700;
+  color:var(--muted);
+  width:28px;
+  text-align:right;
+  flex-shrink:0;
+}
+
+/* Footer */
+.card-foot{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-top:12px;
+  border-top:1px solid var(--border);
+  margin-top:auto;
+}
+
+.price{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:22px;
+  font-weight:900;
+  color:var(--gold);
+  letter-spacing:0.5px;
+}
+
+.price sup{
+  font-size:12px;
+  font-weight:700;
+  vertical-align:super;
+}
+
+.label{
+  font-size:11px;
+  color:var(--muted);
+  letter-spacing:1px;
+  text-transform:uppercase;
+  display:flex;
+  align-items:center;
+  gap:4px;
+}
+
+/* ===== FOOTER ===== */
+footer{
+  text-align:center;
+  padding:32px 0 0;
+  border-top:1px solid var(--border);
+  color:var(--muted);
+  font-size:12px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+footer span{color:var(--gold)}
+
+/* Hover glow line */
+@keyframes shimmer{
+  0%{background-position:-200% center}
+  100%{background-position:200% center}
+}
+
+.card:hover .card-name{
+  background:linear-gradient(90deg,#fff,var(--gold),#fff);
+  background-size:200% auto;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:shimmer 2s linear infinite;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="tag">Counter-Strike 2</div>
+  <h1>Qurol<br><em>Arsenali</em></h1>
+  <p class="sub">Barcha qurollar · Narxlar · Statistika</p>
+  <div class="divider"></div>
+  <div class="stats-strip">
+    <div class="stat-item"><span class="stat-num">18</span><span class="stat-lbl">Qurollar</span></div>
+    <div class="stat-item"><span class="stat-num">4</span><span class="stat-lbl">Kategoriya</span></div>
+    <div class="stat-item"><span class="stat-num">$200</span><span class="stat-lbl">Min narx</span></div>
+    <div class="stat-item"><span class="stat-num">$5000</span><span class="stat-lbl">Max narx</span></div>
+  </div>
+</header>
+
+<div class="filter-bar">
+  <span class="filter-lbl">Filter:</span>
+  <button class="filter-btn active" onclick="filter('all',this)">Hammasi</button>
+  <button class="filter-btn" onclick="filter('ct',this)">CT-Side</button>
+  <button class="filter-btn" onclick="filter('t',this)">T-Side</button>
+  <button class="filter-btn" onclick="filter('both',this)">Har ikki</button>
+</div>
+
+<!-- PISTOLETLAR -->
+<div class="section" data-section="pistols">
+  <div class="sec-head">
+    <div class="sec-icon"></div>
+    <span class="sec-title">Pistoletlar</span>
+    <div class="sec-line"></div>
+    <span class="sec-count">06 qurol</span>
+  </div>
+  <div class="grid">
+
+    <div class="card" data-side="t">
+      <div class="img-wrap">
+        <span class="card-num">01</span>
+        <img src="https://community.cloudflare.steamstatic.com/economy/image/class/730/glock18/300fx225f"
+             onerror="this.src='https://community.cloudflare.steamstatic.com/economy/image/class/730/glock18/300fx225f'" alt="Glock-18">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">Glock-18</span>
+          <span class="badge badge-t">T-Side</span>
+        </div>
+        <p class="card-desc">Yuqori sig'im va tezkor otish rejimi. T-tomonning standart pistoleti.</p>
+        <div class="stats">
+          <div class="stat-r"><span class="s-lbl">Zarar</span><div class="s-bg"><div class="s-fill s-red" style="width:38%"></div></div><span class="s-val">38</span></div>
+          <div class="stat-r"><span class="s-lbl">Tezlik</span><div class="s-bg"><div class="s-fill s-blue" style="width:85%"></div></div><span class="s-val">85</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="price"><sup>$</sup>200</span>
+          <span class="label">🏷 Boshlang'ich</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-side="ct">
+      <div class="img-wrap">
+        <span class="card-num">02</span>
+        <img src="https://community.cloudflare.steamstatic.com/economy/image/class/730/usp_silencer/300fx225f"
+             onerror="this.src='https://community.cloudflare.steamstatic.com/economy/image/class/730/usp_silencer/300fx225f'" alt="USP-S">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">USP-S</span>
+          <span class="badge badge-ct">CT-Side</span>
+        </div>
+        <p class="card-desc">Ovoz o'chirgichli, aniq va ishonchli CT pistoleti.</p>
+        <div class="stats">
+          <div class="stat-r"><span class="s-lbl">Zarar</span><div class="s-bg"><div class="s-fill s-red" style="width:50%"></div></div><span class="s-val">50</span></div>
+          <div class="stat-r"><span class="s-lbl">Tezlik</span><div class="s-bg"><div class="s-fill s-blue" style="width:80%"></div></div><span class="s-val">80</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="price"><sup>$</sup>200</span>
+          <span class="label">🔇 Silent</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-side="both">
+      <div class="img-wrap">
+        <span class="card-num">03</span>
+        <img src="https://community.cloudflare.steamstatic.com/economy/image/class/730/deagle/300fx225f"
+             onerror="this.src='https://community.cloudflare.steamstatic.com/economy/image/class/730/deagle/300fx225f'" alt="Desert Eagle">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">Desert Eagle</span>
+          <span class="badge badge-both">Har ikki</span>
+        </div>
+        <p class="card-desc">Bir o'q bilan boshga zarba. Pistoletlar qiroli.</p>
+        <div class="stats">
+          <div class="stat-r"><span class="s-lbl">Zarar</span><div class="s-bg"><div class="s-fill s-red" style="width:85%"></div></div><span class="s-val">85</span></div>
+          <div class="stat-r"><span class="s-lbl">Tezlik</span><div class="s-bg"><div class="s-fill s-blue" style="width:40%"></div></div><span class="s-val">40</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="price"><sup>$</sup>700</span>
+          <span class="label">💀 One-tap</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-side="both">
+      <div class="img-wrap">
+        <span class="card-num">04</span>
+        <img src="https://community.cloudflare.steamstatic.com/economy/image/class/730/p250/300fx225f"
+             onerror="this.src='https://community.cloudflare.steamstatic.com/economy/image/class/730/p250/300fx225f'" alt="P250">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">P250</span>
+          <span class="badge badge-both">Har ikki</span>
+        </div>
+        <p class="card-desc">Arzon va samarali. Eco raundlarda eng yaxshi tanlov.</p>
+        <div class="stats">
+          <div class="stat-r"><span class="s-lbl">Zarar</span><div class="s-bg"><div class="s-fill s-red" style="width:55%"></div></div><span class="s-val">55</span></div>
+          <div class="stat-r"><span class="s-lbl">Tezlik</span><div class="s-bg"><div class="s-fill s-blue" style="width:75%"></div></div><span class="s-val">75</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="price"><sup>$</sup>300</span>
+          <span class="label">💡 Eco pick</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-side="ct">
+      <div class="img-wrap">
+        <span class="card-num">05</span>
+        <img src="https://community.cloudflare.steamstatic.com/economy/image/class/730/fiveseven/300fx225f"
+             onerror="this.src='https://community.cloudflare.steamstatic.com/economy/image/class/730/fiveseven/300fx225f'" alt="Five-SeveN">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">Five-SeveN</span>
+          <span class="badge badge-ct">CT-Side</span>
+        </div>
+        <p class="card-desc">Ko'p o'q va broneni teshish imkoniyati bor CT pistoleti.</p>
+        <div class="stats">
+          <div class="stat-r"><span class="s-lbl">Zarar</span><div class="s-bg"><div class="s-fill s-red" style="width:48%"></div></div><span class="s-val">48</span></div>
+          <div class="stat-r"><span class="s-lbl">Brone</span><div class="s-bg"><div class="s-fill s-green" style="width:70%"></div></div><span class="s-val">70</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="price"><sup>$</sup>500</span>
+          <span class="label">🛡 Armor pen</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-side="t">
+      <div class="img-wrap">
+        <span class="card-num">06</span>
+        <img src="https://community.cloudflare.steamstatic.com/economy/image/class/730/tec9/300fx225f"
+             onerror="this.src='https://community.cloudflare.steamstatic.com/economy/image/class/730/tec9/300fx225f'" alt="Tec-9">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">Tec-9</span>
+          <span class="badge badge-t">T-Side</span>
+        </div>
+        <p class="card-desc">Tezkor otish va yugurib otish uchun eng qulay T pistoleti.</p>
+        <div class="stats">
+          <div class="stat-r"><span class="s-lbl">Zarar</span><div class="s-bg"><div class="s-fill s-red" style="width:52%"></div></div><span class="s-val">52</span></div>
+          <div class="stat-r"><span class="s-lbl">Tezlik</span><div class="s-bg"><div class="s-fill s-blue" style="width:90%"></div></div><span class="s-val">90</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="price"><sup>$</sup>500</span>
+          <span class="label">⚡ Rush</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MILTIQLAR -->
+<div class="section" data-section="rifles">
+  <div class="sec-head">
+    <div class="sec-icon"></div>
+    <span class="sec-title">Miltiqlar (Rifles)</span>
+    <div class="sec-line"></div>
+    <span class="sec-count">05 qurol</span>
+  </div>
+  <div class="grid">
+
+    <div class="card" data-side="t">
+      <div class="img-wrap">
+        <span class="card-num">07</span>
+        <img src="https://community.cloudflare.steamstatic.com/economy/image/class/730/ak47/300fx225f"
+             onerror="this.src='https://community.cloudflare.steamstatic.com/economy/image/class/730/ak47/300fx225f'" alt="AK-47">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">AK-47</span>
+          <span class="badge badge-t">T-Side</span>
+        </div>
+        <p class="card-desc">Eng kuchli va ommabop avtomat. Bir o'q boshga zarba.</p>
+        <div class="stats">
+          <div class="stat-r"><span class="s-lbl">Zarar</span><div class="s-bg"><div class="s-fill s-red" style="width:92%"></div></div><span class="s-val">92</span></div>
+          <div class="stat-r"><span class="s-lbl">Tezlik</span><div class="s-bg"><div class="s-fill s-blue" style="width:55%"></div></div><span class="s-val">55</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="price"><sup>$</sup>2700</span>
+          <span class="label">👑 Meta</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-side="ct">
+      <div class="img-wrap">
+        <span class="card-num">08</span>
+        <img src="https://community.cloudflare.steamstatic.com/economy/image/class/730/m4a1/300fx225f"
+             onerror="this.src='https://community.cloudflare.steamstatic.com/economy/image/class/730/m4a1/300fx225f'" alt="M4A4">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">M4A4</span>
+          <span class="badge badge-ct">CT-Side</span>
+        </div>
+        <p class="card-desc">Tezkor otish va yaxshi nazorat. 30 o'q sig'im.</p>
+        <div class="stats">
+          <div class="stat-r"><span class="s-lbl">Zarar</span><div class="s-bg"><div class="s-fill s-red" style="width:78%"></div></div><span class="s-val">78</span></div>
+          <div class="stat-r"><span class="s-lbl">Tezlik</span><div class="s-bg"><div class="s-fill s-blue" style="width:70%"></div></div><span class="s-val">70</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="price"><sup>$</sup>3100</span>
+          <span class="label">🎯 Spray</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-side="ct">
+      <div class="img-wrap">
+        <span class="card-num">09</span>
+        <img src="https://community.cloudflare.steamstatic.com/economy/image/class/730/m4a1_silencer/300fx225f"
+             onerror="this.src='https://community.cloudflare.steamstatic.com/economy/image/class/730/m4a1_silencer/300fx225f'" alt="M4A1-S">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">M4A1-S</span>
+          <span class="badge badge-ct">CT-Side</span>
+        </div>
+        <p class="card-desc">Ovoz o'chirgichli, aniq masofali CT avtomati.</p>
+        <div class="stats">
+          <div class="stat-r"><span class="s-lbl">Zarar</span><div class="s-bg"><div class="s-fill s-red" style="width:75%"></div></div><span class="s-val">75</span></div>
+          <div class="stat-r"><span class="s-lbl">Aniqlik</span><div class="s-bg"><div class="s-fill s-green" style="width:88%"></div></div><span class="s-val">88</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="price"><sup>$</sup>2900</span>
+          <span class="label">🔇 Silent</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-side="t">
+      <div class="img-wrap">
+        <span class="card-num">10</span>
+        <img src="https://community.cloudflare.steamstatic.com/economy/image/class/730/galil/300fx225f"
+             onerror="this.src='https://community.cloudflare.steamstatic.com/economy/image/class/730/galil/300fx225f'" alt="Galil AR">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">Galil AR</span>
+          <span class="badge badge-t">T-Side</span>
+        </div>
+        <p class="card-desc">Budjetli hujum quroli. 35 o'q sig'im, tejamkor.</p>
+        <div class="stats">
+          <div class="stat-r"><span class="s-lbl">Zarar</span><div class="s-bg"><div class="s-fill s-red" style="width:68%"></div></div><span class="s-val">68</span></div>
+          <div class="stat-r"><span class="s-lbl">Tezlik</span><div class="s-bg"><div class="s-fill s-blue" style="width:65%"></div></div><span class="s-val">65</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="price"><sup>$</sup>1800</span>
+          <span class="label">💰 Budget</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-side="ct">
+      <div class="img-wrap">
+        <span class="card-num">11</span>
+        <img src="https://community.cloudflare.steamstatic.com/economy/image/class/730/famas/300fx225f"
+             onerror="this.src='https://community.cloudflare.steamstatic.com/economy/image/class/730/famas/300fx225f'" alt="FAMAS">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">FAMAS</span>
+          <span class="badge badge-ct">CT-Side</span>
+        </div>
+        <p class="card-desc">Iqtisodiy vaziyatlar uchun CT avtomati. Burst rejimi bor.</p>
+        <div class="stats">
+          <div class="stat-r"><span class="s-lbl">Zarar</span><div class="s-bg"><div class="s-fill s-red" style="width:63%"></div></div><span class="s-val">63</span></div>
+          <div class="stat-r"><span class="s-lbl">Tezlik</span><div class="s-bg"><div class="s-fill s-blue" style="width:72%"></div></div><span class="s-val">72</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="price"><sup>$</sup>2050</span>
+          <span class="label">💰 Force buy</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SNAYPERLAR -->
+<div class="section" data-section="snipers">
+  <div class="sec-head">
+    <div class="sec-icon"></div>
+    <span class="sec-title">Snayperlar</span>
+    <div class="sec-line"></div>
+    <span class="sec-count">03 qurol</span>
+  </div>
+  <div class="grid">
+
+    <div class="card" data-side="both">
+      <div class="img-wrap">
+        <span class="card-num">12</span>
+        <img src="https://community.cloudflare.steamstatic.com/economy/image/class/730/awp/300fx225f"
+             onerror="this.src='https://community.cloudflare.steamstatic.com/economy/image/class/730/awp/300fx225f'" alt="AWP">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">AWP</span>
+          <span class="badge badge-both">Har ikki</span>
+        </div>
+        <p class="card-desc">Bir o'q bilan o'lim. O'yinning haqiqiy qiroli.</p>
+        <div class="stats">
+          <div class="stat-r"><span class="s-lbl">Zarar</span><div class="s-bg"><div class="s-fill s-red" style="width:100%"></div></div><span class="s-val">100</span></div>
+          <div class="stat-r"><span class="s-lbl">Tezlik</span><div class="s-bg"><div class="s-fill s-blue" style="width:22%"></div></div><span class="s-val">22</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="price"><sup>$</sup>4750</span>
+          <span class="label">💀 One-shot</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-side="both">
+      <div class="img-wrap">
+        <span class="card-num">13</span>
+        <img src="https://community.cloudflare.steamstatic.com/economy/image/class/730/scout/300fx225f"
+             onerror="this.src='https://community.cloudflare.steamstatic.com/economy/image/class/730/scout/300fx225f'" alt="SSG 08">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">SSG 08</span>
+          <span class="badge badge-both">Har ikki</span>
+        </div>
+        <p class="card-desc">Yengil, harakatchan snayper. Sakrab o'qlanadi.</p>
+        <div class="stats">
+          <div class="stat-r"><span class="s-lbl">Zarar</span><div class="s-bg"><div class="s-fill s-red" style="width:82%"></div></div><span class="s-val">82</span></div>
+          <div class="stat-r"><span class="s-lbl">Tezlik</span><div class="s-bg"><div class="s-fill s-blue" style="width:55%"></div></div><span class="s-val">55</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="price"><sup>$</sup>1700</span>
+          <span class="label">⚡ Scout</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-side="ct">
+      <div class="img-wrap">
+        <span class="card-num">14</span>
+        <img src="https://community.cloudflare.steamstatic.com/economy/image/class/730/scar20/300fx225f"
+             onerror="this.src='https://community.cloudflare.steamstatic.com/economy/image/class/730/scar20/300fx225f'" alt="SCAR-20">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">SCAR-20</span>
+          <span class="badge badge-ct">CT-Side</span>
+        </div>
+        <p class="card-desc">Avtomatik snayper. Tezkor o'q uzatadi, ammo qimmat.</p>
+        <div class="stats">
+          <div class="stat-r"><span class="s-lbl">Zarar</span><div class="s-bg"><div class="s-fill s-red" style="width:88%"></div></div><span class="s-val">88</span></div>
+          <div class="stat-r"><span class="s-lbl">Tezlik</span><div class="s-bg"><div class="s-fill s-blue" style="width:18%"></div></div><span class="s-val">18</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="price"><sup>$</sup>5000</span>
+          <span class="label">🤖 Auto</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SMG & SHOTGUN -->
+<div class="section" data-section="smg">
+  <div class="sec-head">
+    <div class="sec-icon"></div>
+    <span class="sec-title">SMG va Shotgunlar</span>
+    <div class="sec-line"></div>
+    <span class="sec-count">04 qurol</span>
+  </div>
+  <div class="grid">
+
+    <div class="card" data-side="ct">
+      <div class="img-wrap">
+        <span class="card-num">15</span>
+        <img src="https://community.cloudflare.steamstatic.com/economy/image/class/730/mp9/300fx225f"
+             onerror="this.src='https://community.cloudflare.steamstatic.com/economy/image/class/730/mp9/300fx225f'" alt="MP9">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">MP9</span>
+          <span class="badge badge-ct">CT-Side</span>
+        </div>
+        <p class="card-desc">Yaqin masofada juda tezkor. Ko'p o'q pul tushiradi.</p>
+        <div class="stats">
+          <div class="stat-r"><span class="s-lbl">Zarar</span><div class="s-bg"><div class="s-fill s-red" style="width:45%"></div></div><span class="s-val">45</span></div>
+          <div class="stat-r"><span class="s-lbl">Tezlik</span><div class="s-bg"><div class="s-fill s-blue" style="width:95%"></div></div><span class="s-val">95</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="price"><sup>$</sup>1250</span>
+          <span class="label">⚡ Fast</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-side="t">
+      <div class="img-wrap">
+        <span class="card-num">16</span>
+        <img src="https://community.cloudflare.steamstatic.com/economy/image/class/730/mac10/300fx225f"
+             onerror="this.src='https://community.cloudflare.steamstatic.com/economy/image/class/730/mac10/300fx225f'" alt="MAC-10">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">MAC-10</span>
+          <span class="badge badge-t">T-Side</span>
+        </div>
+        <p class="card-desc">Arzon va rush uchun qulay. Ko'p pul tushirish imkoni.</p>
+        <div class="stats">
+          <div class="stat-r"><span class="s-lbl">Zarar</span><div class="s-bg"><div class="s-fill s-red" style="width:42%"></div></div><span class="s-val">42</span></div>
+          <div class="stat-r"><span class="s-lbl">Tezlik</span><div class="s-bg"><div class="s-fill s-blue" style="width:92%"></div></div><span class="s-val">92</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="price"><sup>$</sup>1050</span>
+          <span class="label">💨 Rush</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-side="both">
+      <div class="img-wrap">
+        <span class="card-num">17</span>
+        <img src="https://community.cloudflare.steamstatic.com/economy/image/class/730/xm1014/300fx225f"
+             onerror="this.src='https://community.cloudflare.steamstatic.com/economy/image/class/730/xm1014/300fx225f'" alt="XM1014">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">XM1014</span>
+          <span class="badge badge-both">Har ikki</span>
+        </div>
+        <p class="card-desc">Avtomatik shotgun. Yaqin masofada halokatli.</p>
+        <div class="stats">
+          <div class="stat-r"><span class="s-lbl">Zarar</span><div class="s-bg"><div class="s-fill s-red" style="width:78%"></div></div><span class="s-val">78</span></div>
+          <div class="stat-r"><span class="s-lbl">Tezlik</span><div class="s-bg"><div class="s-fill s-blue" style="width:45%"></div></div><span class="s-val">45</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="price"><sup>$</sup>2000</span>
+          <span class="label">💥 Shotgun</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-side="both">
+      <div class="img-wrap">
+        <span class="card-num">18</span>
+        <img src="https://community.cloudflare.steamstatic.com/economy/image/class/730/p90/300fx225f"
+             onerror="this.src='https://community.cloudflare.steamstatic.com/economy/image/class/730/p90/300fx225f'" alt="P90">
+      </div>
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-name">P90</span>
+          <span class="badge badge-both">Har ikki</span>
+        </div>
+        <p class="card-desc">50 o'q sig'im. Dushmanlarga to'xtovsiz otish.</p>
+        <div class="stats">
+          <div class="stat-r"><span class="s-lbl">Zarar</span><div class="s-bg"><div class="s-fill s-red" style="width:50%"></div></div><span class="s-val">50</span></div>
+          <div class="stat-r"><span class="s-lbl">Sig'im</span><div class="s-bg"><div class="s-fill s-green" style="width:100%"></div></div><span class="s-val">50</span></div>
+        </div>
+        <div class="card-foot">
+          <span class="price"><sup>$</sup>2350</span>
+          <span class="label">🔋 50 rounds</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <span>CS2 Arsenal</span> &nbsp;·&nbsp; Barcha narxlar in-game dollarda &nbsp;·&nbsp; counter-strike.net
+</footer>
+
+</div>
+
+<script>
+function filter(side, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.card').forEach(card => {
+    if (side === 'all' || card.dataset.side === side) {
+      card.style.display = '';
+      card.style.animation = 'fadeIn 0.3s ease';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+const style = document.createElement('style');
+style.textContent = '@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}';
+document.head.appendChild(style);
+</script>
+</body>
+</html>
