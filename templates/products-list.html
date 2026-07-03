@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products List</title>
+    <link rel="stylesheet" href="/static/css/products-list.css">
+</head>
+<body>
+    <!-- <div class="cover">
+        <h1>Products</h1>
+        <p><a href="{% url 'create_product' %}">Create New Product</a></p>
+
+        {% if products %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                        <tr>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.price }}</td>
+                            <td>{{ product.description|default:"-" }}</td>
+                            <td>
+                                {% if product.image %}
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width:100px; max-height:80px;" />
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'product-view' product.id %}">View</a> |
+                                <a href="{% url 'update_product' product.id %}">Edit</a> |
+                                <a href="{% url 'delete_product' product.id %}">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No products found.</p>
+        {% endif %}
+    </div> -->
+    <div class="head">
+        <h1>Products</h1>
+        <a type="button" href="{% url 'create_product' %}" class="button">Add Product</a>
+    </div>
+
+    <div class="cover">
+        {% for product in products %}
+            <div class="product-card">
+                {%if product.image%}
+                <img src="{{ product.image.url }}" width="100" alt="{{ product.name }}">
+                {% else %}
+                <img src="/static/images/No-image-available.png" width="100" alt="No image">
+                {% endif %}
+
+                <div class="card-down">
+                    <div class="left">
+                        <h2>{{ product.name }}</h2>
+                        <p>Price: ${{ product.price }}</p>
+                    </div>
+                    <div class="right">
+                        <a class="button" id="p-view" href="{% url 'product-view' product.id %}">View</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

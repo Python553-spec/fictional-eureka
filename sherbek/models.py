@@ -44,21 +44,43 @@
 
 from django.db import models
 from django.contrib.auth.models import User
-class Conter(models.Model):
-    Gender_Choices = [
-        {'E','Erkak'},
-        ('f','Ayol'),
-    ]
+# class Conter(models.Model):
+#     Gender_Choices = [
+#         {'E','Erkak'},
+#         ('f','Ayol'),
+#     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    ismi = models.CharField(max_length=46)
-    familya = models.CharField(max_length=45)
-    raqam = models.CharField(max_length=400,null=True,blank=True)
-    yoshi = models.CharField(max_length=300,null=True,blank=True)
-    stem_username = models.CharField(max_length=500)
-    telegram_username = models.CharField(max_length=400,null=True,blank=True)
+#     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+#     ismi = models.CharField(max_length=46)
+#     familya = models.CharField(max_length=45)
+#     raqam = models.CharField(max_length=400,null=True,blank=True)
+#     yoshi = models.CharField(max_length=300,null=True,blank=True)
+#     stem_username = models.CharField(max_length=500)
+#     telegram_username = models.CharField(max_length=400,null=True,blank=True)
     
 
     
+#     def __str__(self):
+#         return f"{self.ismi} | {self.familya}"
+
+
+# from django.db import models
+
+# class Sherbek(models.Model):
+#     name = models.CharField(max_length=100)
+#     surname = models.CharField(max_length=100)
+
+#     def __str__(self):
+#         return f"{self.name} {self.surname}"
+
+
+
+from django.db import models
+
+class Ishchi(models.Model):
+    name = models.CharField(max_length=100)
+    surname = models.CharField(max_length=100)
+    img = models.ImageField(upload_to="rasm")
+
     def __str__(self):
-        return f"{self.ismi} | {self.familya}"
+        return f"{self.name}"

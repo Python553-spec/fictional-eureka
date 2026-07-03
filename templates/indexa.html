@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma'lumotlar bazasi</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <h1>Ma'lumot qo'shish sahifasi</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        
+        <label for="name">Ism:</label>
+        <input type="text" id="name" name="name" required>
+        
+        <br><br>
+        
+        <label for="last_name">Familiya:</label>
+        <input type="text" id="last_name" name="last_name" required>
+        
+        <br><br>
+        
+        <button type="submit">Saqlash</button>
+    </form>
+
+</body>
+</html>

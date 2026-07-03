@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yangi moshn qo'shish</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+    
+    <style>
+        /* PRO CSS - Hamma narsa shu yerda */
+        :root {
+            --primary: #534AB7;
+            --primary-light: #EEEDFE;
+            --bg: #F4F3EE;
+            --text: #1a1a1a;
+            --text-light: #6b6b6b;
+            --border: rgba(0,0,0,0.1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        .card-header { display: flex; align-items: center; gap: 16px; margin-bottom: 2rem; }
+        
+        .icon-wrap {
+            width: 48px; height: 48px; border-radius: 12px; background: var(--primary-light);
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .icon-wrap i { font-size: 24px; color: var(--primary); }
+
+        .card-header h2 { font-size: 20px; font-weight: 600; color: var(--text); }
+        .card-header p { font-size: 13px; color: var(--text-light); margin-top: 2px; }
+
+        .field { margin-bottom: 1.5rem; }
+        .field label { display: block; font-size: 13px; font-weight: 600; color: var(--text-light); margin-bottom: 8px; }
+        
+        .field input[type=text], .field textarea {
+            width: 100%; background: #fcfcfc; border: 1px solid #e5e5e5;
+            border-radius: 10px; padding: 12px 14px; font-size: 15px;
+            transition: all 0.2s; outline: none;
+        }
+
+        .field input[type=text]:focus, .field textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-light); }
+        
+        .field textarea { min-height: 110px; resize: none; }
+
+        .prefix { display: flex; align-items: center; }
+        .prefix span {
+            background: #f8f8f8; border: 1px solid #e5e5e5; border-right: none;
+            border-radius: 10px 0 0 10px; padding: 12px 14px; color: #888;
+        }
+        .prefix input { border-radius: 0 10px 10px 0 !important; }
+
+        .upload-box {
+            border: 2px dashed #e5e5e5; border-radius: 12px; padding: 2rem;
+            text-align: center; cursor: pointer; background: #fafafa;
+            position: relative; transition: 0.2s;
+        }
+        .upload-box:hover { border-color: var(--primary); background: #fdfdff; }
+        .upload-box input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+        .upload-box i { font-size: 32px; color: #ccc; margin-bottom: 8px; }
+
+        .btn-submit {
+            width: 100%; padding: 14px; background: var(--primary); color: #fff;
+            border: none; border-radius: 10px; font-size: 15px; font-weight: 600;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            gap: 8px; transition: 0.2s;
+        }
+        .btn-submit:hover { background: #4338a0; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="card-header">
+        <div class="icon-wrap"><i class="ti ti-box"></i></div>
+        <div>
+            <h2>Yangi Moshn Qushish</h2>
+            <p>Barcha maydonlarni to'ldiring</p>
+        </div>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="field">
+            <label>Nomi:</label>
+            <input type="text" name="name" placeholder="Mahsulot nomi" required>
+        </div>
+        <div class="field">
+            <label>Narxi:</label>
+            <div class="prefix">
+                <span><i class="ti ti-currency-som"></i></span>
+                <input type="text" name="narxi" placeholder="0 so'm" required>
+            </div>
+        </div>
+        <div class="field">
+            <label>Ma'lumot:</label>
+            <textarea name="malumot" placeholder="Batafsil ma'lumot..." required></textarea>
+        </div>
+        <div class="field">
+            <label>Rasm:</label>
+            <div class="upload-box">
+                <input type="file" name="rasm" accept="image/*">
+                <i class="ti ti-photo-up"></i>
+                <div style="font-size: 13px; color: #666;"><strong>Rasm yuklash</strong></div>
+            </div>
+        </div>
+        <button type="submit" class="btn-submit"><i class="ti ti-device-floppy"></i> Saqlash</button>
+    </form>
+</div>
+
+</body>
+</html>

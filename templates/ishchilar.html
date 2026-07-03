@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+</head>
+<body>
+    <h1>ishchilar</h1>
+</body>
+</html>
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="name" value="{{ ishchi.name }}" placeholder="Ismi">
+    <input type="text" name="surname" value="{{ ishchi.surname }}" placeholder="Familiyasi">
+    <button type="submit">Saqlash</button>
+</form>
+
+
+
+
+<a href="/create/">Yangi ishchi qo'shish</a>
+<ul>
+    {% for i in ishchilar %}
+        <li>
+            {{ i.name }} {{ i.surname }}
+            <a href="/update/{{ i.id }}/">Tahrirlash</a>
+            <a href="/delete/{{ i.id }}/">O'chirish</a>
+        </li>
+    {% endfor %}
+</ul>
