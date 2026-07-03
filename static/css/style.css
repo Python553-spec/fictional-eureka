@@ -1,5 +1,5 @@
 /* ============================================
-   STEM × CS2 — Registration Form
+   STEM Ã— CS2 â€” Registration Form
    style.css
    ============================================ */
 
@@ -28,14 +28,14 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ── Body — Steam background ─────────────── */
+/* â”€â”€ Body â€” Steam background â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 body {
   min-height: 100vh;
 
   /* 1. Steam fon rasmi */
   background-color: var(--bg);
   background-image:
-    /* Qorong'i gradient overlay — rasm ko'rinsin lekin hira bo'lmasin */
+    /* Qorong'i gradient overlay â€” rasm ko'rinsin lekin hira bo'lmasin */
     linear-gradient(
       135deg,
       rgba(10, 12, 16, 0.72) 0%,
@@ -62,7 +62,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Fallback — agar rasm yuklanmasa */
+/* Fallback â€” agar rasm yuklanmasa */
 body::before {
   content: '';
   position: fixed;
@@ -74,7 +74,7 @@ body::before {
   z-index: 0;
 }
 
-/* ── Floating particles ──────────────────── */
+/* â”€â”€ Floating particles â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .particles {
   position: fixed;
   inset: 0;
@@ -108,7 +108,7 @@ body::before {
   100% { bottom: 105vh; opacity: 0; transform: translateX(30px); }
 }
 
-/* ── BG Weapon silhouettes ───────────────── */
+/* â”€â”€ BG Weapon silhouettes â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .bg-weapons {
   position: fixed;
   inset: 0;
@@ -124,7 +124,7 @@ body::before {
 .w-awp { width: 400px; bottom: 10%; right: -60px; transform: rotate(12deg); fill: rgba(75,105,255,0.07); }
 .w-m4  { width: 310px; top: 55%; left: 40px; transform: rotate(-3deg); fill: rgba(235,75,130,0.06); }
 
-/* ── Background case cards ───────────────── */
+/* â”€â”€ Background case cards â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .bg-cases {
   position: fixed;
   inset: 0;
@@ -156,7 +156,7 @@ body::before {
 .r-pink   { background: rgba(235,75,130,0.25); color: var(--pink); }
 .r-purple { background: rgba(136,71,255,0.25); color: var(--purple); }
 
-/* ── Main Card ───────────────────────────── */
+/* â”€â”€ Main Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .main-card {
   width: 100%;
   max-width: 560px;
@@ -179,7 +179,7 @@ body::before {
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* ── Rarity stripe ───────────────────────── */
+/* â”€â”€ Rarity stripe â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .rarity-stripe {
   display: flex;
   height: 4px;
@@ -192,7 +192,7 @@ body::before {
 .rs-blue   { background: var(--blue); }
 .rs-gray   { background: var(--gray-rare); }
 
-/* ── Header ──────────────────────────────── */
+/* â”€â”€ Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .card-header {
   padding: 32px 40px 24px;
   text-align: center;
@@ -298,7 +298,7 @@ body::before {
 .hd-line:last-child { background: linear-gradient(90deg, var(--orange-dim), transparent); }
 .hd-diamond { font-size: 8px; color: var(--orange); }
 
-/* ── Form body ───────────────────────────── */
+/* â”€â”€ Form body â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .reg-form {
   padding: 32px 40px 36px;
   display: flex;
@@ -408,7 +408,7 @@ input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
 }
 .sl-line { flex: 1; height: 1px; background: var(--card-border); }
 
-/* ── Submit button ───────────────────────── */
+/* â”€â”€ Submit button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .submit-btn {
   margin-top: 28px;
   width: 100%;
@@ -466,7 +466,7 @@ input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
 }
 .submit-btn:hover::after { left: 130%; }
 
-/* ── Card footer ─────────────────────────── */
+/* â”€â”€ Card footer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .card-footer {
   text-align: center;
   padding: 12px 40px;
@@ -478,7 +478,7 @@ input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
   background: rgba(0,0,0,0.25);
 }
 
-/* ── Responsive ──────────────────────────── */
+/* â”€â”€ Responsive â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 560px) {
   .card-header,
   .reg-form { padding-left: 22px; padding-right: 22px; }

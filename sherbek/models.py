@@ -57,6 +57,7 @@ class Conter(models.Model):
     yoshi = models.CharField(max_length=300,null=True,blank=True)
     stem_username = models.CharField(max_length=500)
     telegram_username = models.CharField(max_length=400,null=True,blank=True)
+    
 
     
     def __str__(self):

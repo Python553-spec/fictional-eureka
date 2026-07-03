@@ -994,3 +994,668 @@ document.head.appendChild(style);
 </script>
 </body>
 </html>
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS2 — Kartalar va O'yin Qo'llanmasi</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#06080f;
+  --bg2:#090d18;
+  --surface:#0c1220;
+  --card:#101828;
+  --card-h:#131e30;
+  --gold:#e8a030;
+  --gold2:#f0b84a;
+  --gold-dim:rgba(232,160,48,0.12);
+  --ct:#4a9eff;
+  --t:#ff7c3a;
+  --both:#a855f7;
+  --text:#c8d4e8;
+  --muted:#4a5a72;
+  --border:rgba(255,255,255,0.05);
+  --border-g:rgba(232,160,48,0.2);
+}
+
+body{
+  font-family:'Barlow',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* Scan lines overlay */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.04) 2px,rgba(0,0,0,0.04) 4px);
+  pointer-events:none;
+  z-index:999;
+}
+
+/* Grid bg */
+body::after{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(58,123,213,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(58,123,213,0.04) 1px,transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;
+  z-index:0;
+}
+
+.wrap{
+  max-width:1360px;
+  margin:0 auto;
+  padding:0 28px 80px;
+  position:relative;
+  z-index:1;
+}
+
+/* ===== HEADER ===== */
+header{
+  text-align:center;
+  padding:70px 0 40px;
+}
+
+.tag{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:var(--gold-dim);
+  border:1px solid var(--border-g);
+  color:var(--gold);
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  padding:6px 16px;
+  border-radius:2px;
+  margin-bottom:24px;
+}
+
+.tag::before,.tag::after{content:'◆';font-size:6px;opacity:0.6}
+
+h1{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(42px,8vw,90px);
+  font-weight:900;
+  line-height:0.9;
+  letter-spacing:-1px;
+  text-transform:uppercase;
+  color:#fff;
+  margin-bottom:8px;
+}
+
+h1 em{
+  font-style:normal;
+  color:var(--gold);
+  -webkit-text-stroke:1px var(--gold);
+}
+
+.sub{
+  font-size:15px;
+  color:var(--muted);
+  letter-spacing:2px;
+  font-weight:400;
+  margin-top:16px;
+}
+
+.divider{
+  width:100%;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--border-g) 20%,var(--border-g) 80%,transparent);
+  margin-top:40px;
+}
+
+/* Navigation Tabs */
+.nav-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 30px 0;
+}
+
+.nav-btn {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 12px 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover, .nav-btn.active {
+  border-color: var(--gold);
+  color: #fff;
+  box-shadow: 0 0 15px rgba(232, 160, 48, 0.2);
+}
+
+.nav-btn.active {
+  background: var(--gold);
+  color: #000;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* ===== SECTION ===== */
+.section{margin-bottom:56px}
+
+.sec-head{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-bottom:20px;
+}
+
+.sec-icon{
+  width:4px;
+  height:32px;
+  background:var(--gold);
+  border-radius:2px;
+  flex-shrink:0;
+}
+
+.sec-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:18px;
+  font-weight:800;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:#fff;
+}
+
+.sec-line{flex:1;height:1px;background:var(--border)}
+
+.sec-count{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:11px;
+  color:var(--muted);
+  letter-spacing:2px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:4px 10px;
+  border-radius:2px;
+}
+
+/* ===== MAPS GRID ===== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:4px;
+  overflow:hidden;
+  position:relative;
+  transition:transform 0.25s,border-color 0.25s,box-shadow 0.25s;
+  display:flex;
+  flex-direction:column;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(232,160,48,0.3);
+  box-shadow:0 20px 40px rgba(0,0,0,0.5);
+}
+
+.img-wrap{
+  height:160px;
+  position:relative;
+  overflow:hidden;
+}
+
+.img-wrap img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:transform 0.5s ease;
+}
+
+.card:hover .img-wrap img{
+  transform:scale(1.08);
+}
+
+.img-wrap::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top, var(--card), transparent 60%);
+}
+
+.card-body{padding:20px;flex:1;display:flex;flex-direction:column}
+
+.card-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:24px;
+  font-weight:800;
+  color:#fff;
+  letter-spacing:0.5px;
+  margin-bottom:8px;
+}
+
+.card-desc{
+  font-size:14px;
+  color:var(--text);
+  opacity:0.8;
+  line-height:1.6;
+  margin-bottom:16px;
+  flex:1;
+}
+
+.map-meta {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.meta-side-t { color: var(--t); font-weight: bold; }
+.meta-side-ct { color: var(--ct); font-weight: bold; }
+.meta-side-balanced { color: var(--both); font-weight: bold; }
+
+/* ===== GUIDE STYLES ===== */
+.guide-container {
+  display: grid;
+  grid-template-columns: 280px 1px 1fr;
+  gap: 40px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 40px;
+  margin-top: 20px;
+}
+
+.guide-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.guide-menu-btn {
+  background: transparent;
+  border: nonwe;
+  color: var(--muted);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: left;
+  padding: 10px 16px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-left: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.guide-menu-btn:hover, .guide-menu-btn.active {
+  color: var(--gold);
+  border-left-color: var(--gold);
+  background: rgba(232, 160, 48, 0.03);
+}
+
+.guide-v-line {
+  background: var(--border);
+}
+
+.guide-text-content {
+  display: none;
+}
+
+.guide-text-content.active {
+  display: block;
+}
+
+.guide-text-content h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.guide-text-content p {
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  color: #c8d4e8;
+}
+
+.important-box {
+  background: rgba(232, 160, 48, 0.05);
+  border-left: 4px solid var(--gold);
+  padding: 20px;
+  margin: 24px 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.important-box h4 {
+  font-family: 'Barlow Condensed', sans-serif;
+  color: var(--gold);
+  font-size: 18px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.guide-list {
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.guide-list li {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 12px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.guide-list li::before {
+  content: '◆';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-size: 10px;
+  top: 2px;
+}
+
+.code-inline {
+  background: #1e293b;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  color: #f43f5e;
+}
+
+@media (max-width: 900px) {
+  .guide-container {
+    grid-template-columns: 1fr;
+  }
+  .guide-v-line { display: none; }
+  .guide-menu { flex-direction: row; flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <!-- HEADER -->
+  <header>
+    <div class="tag">Counter-Strike 2</div>
+    <h1>Xaritalar & <em>Qo'llanma</em></h1>
+    <p class="sub">Taktika · Rasmiy Kartalar · Noldan Professionalgacha</p>
+    <div class="divider"></div>
+  </header>
+
+  <!-- NAV TABS -->
+  <div class="nav-tabs">
+    <button class="nav-btn active" onclick="switchMainTab('maps', this)">Barcha Kartalar</button>
+    <button class="nav-btn" onclick="switchMainTab('guide', this)">0 dan O'rganish Qo'llanmasi</button>
+  </div>
+
+  <!-- TAB 1: MAPS -->
+  <div id="tab-maps" class="tab-content active">
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-icon"></div>
+        <span class="sec-title">Active Duty Xaritalari (2026 Meta)</span>
+        <div class="sec-line"></div>
+        <span class="sec-count">07 Karta</span>
+      </div>
+
+      <div class="grid">
+        <!-- Mirage -->
+        <div class="card">
+          <div class="img-wrap">
+            <img src="https://images.squarespace-cdn.com/content/v1/59af21f0f5e2312b45214434/1529432616212-3B4OM9B07T896ST004I3/mirage.jpg" onerror="this.src='https://placehold.co/600x400/0c1220/e8a030?text=Mirage'" alt="Mirage">
+          </div>
+          <div class="card-body">
+            <h2 class="card-title">Mirage (de_mirage)</h2>
+            <p class="card-desc">CS2 dunyosidagi eng ko'p o'ynaladigan klassik xarita. Taktik granatalar (smokelar) va o'rtadagi (mid) nazorat g'alabani belgilaydi.</p>
+            <div class="map-meta">
+              <span>Balans: <span class="meta-side-balanced">Teng</span></span>
+              <span>Tur: Bomb Defusal</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dust II -->
+        <div class="card">
+          <div class="img-wrap">
+            <img src="https://Bo3.gg/images/maps/dust2-sub.jpg" onerror="this.src='https://placehold.co/600x400/0c1220/e8a030?text=Dust+2'" alt="Dust II">
+          </div>
+          <div class="card-body">
+            <h2 class="card-title">Dust II (de_dust2)</h2>
+            <p class="card-desc">Tarixdagi eng mashhur karta. To'g'ri chiziqli otishmalar, uzoq masofali AWP duellari va tezkor strategiyalar (B rush) bilan ajralib turadi.</p>
+            <div class="map-meta">
+              <span>Balans: <span class="meta-side-t">T-Side ustun</span></span>
+              <span>Tur: Bomb Defusal</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inferno -->
+        <div class="card">
+          <div class="img-wrap">
+            <img src="https://bo3.gg/images/maps/inferno-sub.jpg" onerror="this.src='https://placehold.co/600x400/0c1220/e8a030?text=Inferno'" alt="Inferno">
+          </div>
+          <div class="card-body">
+            <h2 class="card-title">Inferno (de_inferno)</h2>
+            <p class="card-desc">Tor ko'chalar, Banana hududi uchun shafqatsiz janglar va jamoaviy molotov/granata kombinatsiyalarini talab qiladigan murakkab xarita.</p>
+            <div class="map-meta">
+              <span>Balans: <span class="meta-side-ct">CT-Side ustun</span></span>
+              <span>Tur: Bomb Defusal</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nuke -->
+        <div class="card">
+          <div class="img-wrap">
+            <img src="https://bo3.gg/images/maps/nuke-sub.jpg" onerror="this.src='https://placehold.co/600x400/0c1220/e8a030?text=Nuke'" alt="Nuke">
+          </div>
+          <div class="card-body">
+            <h2 class="card-title">Nuke (de_nuke)</h2>
+            <p class="card-desc">Ikki qavatli (A va B) atom stansiyasi. Vertikal eshitish va jamoaviy koordinatsiya juda muhim. Tashqi (Outside) hudud strategiyasi asosiy rolni o'ynaydi.</p>
+            <div class="map-meta">
+              <span>Balans: <span class="meta-side-ct">CT-Side kuchli</span></span>
+              <span>Tur: Bomb Defusal</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ancient -->
+        <div class="card">
+          <div class="img-wrap">
+            <img src="https://bo3.gg/images/maps/ancient-sub.jpg" onerror="this.src='https://placehold.co/600x400/0c1220/e8a030?text=Ancient'" alt="Ancient">
+          </div>
+          <div class="card-body">
+            <h2 class="card-title">Ancient (de_ancient)</h2>
+            <p class="card-desc">Aztek ibodatxonalari bag'ridagi yashil xarita. O'ta tezkor o'yin tizimi va Mid hamda Donat (Donut) hududlaridagi keskin to'qnashuvlar bilan mashhur.</p>
+            <div class="map-meta">
+              <span>Balans: <span class="meta-side-ct">CT-Side ustun</span></span>
+              <span>Tur: Bomb Defusal</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Anubis -->
+        <div class="card">
+          <div class="img-wrap">
+            <img src="https://bo3.gg/images/maps/anubis-sub.jpg" onerror="this.src='https://placehold.co/600x400/0c1220/e8a030?text=Anubis'" alt="Anubis">
+          </div>
+          <div class="card-body">
+            <h2 class="card-title">Anubis (de_anubis)</h2>
+            <p class="card-desc">Qadimgi Misr uslubidagi suvli yo'laklarga ega karta. T-tomon uchun juda ko'p taktik imkoniyatlar yaratadi va tushish (Drop) zonasi strategik ahamiyatga ega.</p>
+            <div class="map-meta">
+              <span>Balans: <span class="meta-side-t">T-Side ustun</span></span>
+              <span>Tur: Bomb Defusal</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Train -->
+        <div class="card">
+          <div class="img-wrap">
+            <img src="https://bo3.gg/images/maps/train-sub.jpg" onerror="this.src='https://placehold.co/600x400/0c1220/e8a030?text=Train'" alt="Train">
+          </div>
+          <div class="card-body">
+            <h2 class="card-title">Train (de_train)</h2>
+            <p class="card-desc">Vagonlar bilan to'la sanoat hududi. CS2 grafik dvigatelida to'liq qayta ishlangan. Snayperlar uchun haqiqiy jannat va uzun chiziqli himoyaga asoslangan.</p>
+            <div class="map-meta">
+              <span>Balans: <span class="meta-side-ct">CT-Side kuchli</span></span>
+              <span>Tur: Bomb Defusal</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: GUIDE -->
+  <div id="tab-guide" class="tab-content">
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-icon"></div>
+        <span class="sec-title">CS2 0 dan Boshlash Qo'llanmasi (MR12 Tizimi)</span>
+        <div class="sec-line"></div>
+      </div>
+
+      <div class="guide-container">
+        <!-- Chap menyu -->
+        <div class="guide-menu">
+          <button class="guide-menu-btn active" onclick="switchGuideSection('g-basic', this)">1. Asosiy Qoidalar</button>
+          <button class="guide-menu-btn" onclick="switchGuideSection('g-economy', this)">2. Ekonomika Tizimi</button>
+          <button class="guide-menu-btn" onclick="switchGuideSection('g-aim', this)">3. Aim & Spray Nazorati</button>
+          <button class="guide-menu-btn" onclick="switchGuideSection('g-settings', this)">4. Tizim va Konfiglar</button>
+        </div>
+
+        <div class="guide-v-line"></div>
+
+        <!-- O'ng matnli qism -->
+        <div class="guide-body">
+          
+          <!-- Section 1 -->
+          <div id="g-basic" class="guide-text-content active">
+            <h3>O'yinning Maqsadi va Asoslari</h3>
+            <p>Counter-Strike 2 — bu 5 taga 5 o'ynaladigan jamoaviy taktik shooter o'yini. O'yinda ikkita jamoa kurashadi:</p>
+            <ul class="guide-list">
+              <li><strong>Terrorchilar (T-Side):</strong> Maqsadi xaritadagi A yoki B nuqtaga bombani (C4) o'rnatish va u portlaguncha himoya qilish, yoki barcha CTlarni yo'q qilish.</li>
+              <li><strong>Aksiya-Terrorchilar (CT-Side):</strong> Maqsadi T-tomonni bombani o'rnatishdan to'sish, o'rnatilgan bombani zararsizlantirish (defuse) yoki vaqt tugaguncha saytlarni saqlab qolish.</li>
+            </ul>
+            <div class="important-box">
+              <h4>⚠️ Yangi MR12 Tizimi qoidasi:</h4>
+              <p>CS2 da har bir yarim taym 12 ta raunddan iborat. Jami 24 raund o'ynaladi. 13 ta raund yutgan jamoa g'olib bo'ladi. Agar hisob 12-12 bo'lsa, qo'shimcha raundlar (Overtime) boshlanadi.</p>
+            </div>
+          </div>
+
+          <!-- Section 2 -->
+          <div id="g-economy" class="guide-text-content">
+            <h3>Ekonomika — G'alabaning Yarmi</h3>
+            <p>O'yin ichidagi pullarni to'g'ri boshqarish (Economy Management) strategiyaning eng muhim qismidir. Har bir raund boshida qurol va granatalar sotib olasiz.</p>
+            <ul class="guide-list">
+              <li><strong>Pistol Round:</strong> Har bir taymning 1-raundi. Hamma $800 pul bilan boshlaydi. Bu raund keyingi 2-3 raund iqtisodiyotini belgilaydi.</li>
+              <li><strong>Full Buy:</strong> Jamoada to'liq qurol-yarog' (AK-47/M4A4), bronejiya (Armor) va to'liq granatalar paketi mavjud holat (Odatda ~$4000-$5000 kerak).</li>
+              <li><strong>Eco / Save Round:</strong> Pullar kam bo'lganda keyingi raundga to'liq qurol olish uchun hech narsa sotib olmaslik yoki faqat arzon pistolet (P250) olish.</li>
+              <li><strong>Force Buy:</strong> Pullar yetarli bo'lmasa ham, raundni yutish majburiy bo'lgani uchun bor pulga SMG (MP9/MAC-10) yoki arzon miltiqlar (FAMAS/Galil) sotib olish.</li>
+            </ul>
+          </div>
+
+          <!-- Section 3 -->
+          <div id="g-aim" class="guide-text-content">
+            <h3>Aiming va Harakat Taktikasi</h3>
+            <p>CS2 sub-tick tizimida ishlaydi, shuning uchun otish mexanikasi aniqlikni o'ta qattiq talab qiladi.</p>
+            <ul class="guide-list">
+              <li><strong>Crosshair Placement (Priselni ushlash):</strong> Priselingizni har doim devor chetlariga, dushman chiqishi mumkin bo'lgan aniq bosh (Headshot) balandligida ushlang. Hech qachon yerga qarab yurmang.</li>
+              <li><strong>Counter-Strafe (To'xtash san'ati):</strong> Yugurib ketayotganda o'q aniq uchmaydi. Otishdan aniq bir millisekund oldin harakatlanayotgan yo'nalishingizning teskari tugmasini bosing (Masalan: D bilan ketayotgan bo'lsangiz, tezda A ni bosib to'xtang) va o'q uzing.</li>
+              <li><strong>Spray Control (O'q yo'nalishini nazorat qilish):</strong> Har bir avtomatning o'z otilish trayektoriyasi (Pattern) bor. Masalan, AK-47 otilganda prisel tepaga va yonga qarab ketadi. Uni ushlab qolish uchun sichqonchani pastga va chapga-o'ngga ohista tortishingiz kerak.</li>
+            </ul>
+          </div>
+
+          <!-- Section 4 -->
+          <div id="g-settings" class="guide-text-content">
+            <h3>FPSni Oshirish va Moslashtirish</h3>
+            <p>CS2 — bu millisekundlar o'yinidir. Tizimni sozlash va o'yinni silliq ishlashini ta'minlash shart.</p>
+            <ul class="guide-list">
+              <li><strong>Grafika Sozlamalari:</strong> FPSni maksimal qilish va dushmanlarni soyalardan aniq ko'rish uchun "Global Shadow Quality"ni High qilib, qolgan keraksiz effektlarni (Texture, Effect) Low qilish tavsiya etiladi.</li>
+              <li><strong>Sub-tick va PING:</strong> Tarmoq sozlamalarida "Max Acceptable Matchmaking Ping"ni 50-60 atrofida belgilang. Bu sizni eng yaqin va past kechikishli (Ping) serverlarga ulaydi.</li>
+              <li><strong>Konsol Buyruqlari:</strong> O'yin sozlamalaridan "Developer Console (~)"ni yoqing va FPSni ko'rish uchun <span class="code-inline">cl_showfps 1</span> buyrug'ini kiriting.</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>CS2 Counter-Strike Hub © 2026 · Created with <span>⚡ Dev Power</span></p>
+  </footer>
+</div>
+
+<script>
+// Main Tab Switching (Maps vs Guide)
+function switchMainTab(tabName, btn) {
+  // Barcha asosiy tab tugmalaridan active klassini olib tashlash
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  // Bosilgan tugmaga active klassini qo'shish
+  btn.classList.add('active');
+
+  // Barcha tab kontentlarini yashirish
+  document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+  // Tanlangan tab kontentini ko'rsatish
+  document.getElementById('tab-' + tabName).classList.add('active');
+}
+
+// Inner Guide Menu Switching
+function switchGuideSection(sectionId, btn) {
+  // Yo'riqnoma menyu tugmalarini yangilash
+  document.querySelectorAll('.guide-menu-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  // Yo'riqnoma matnlarini yangilash
+  document.querySelectorAll('.guide-text-content').forEach(text => text.classList.remove('active'));
+  document.getElementById(sectionId).classList.add('active');
+}
+</script>
+
+</body>
+</html>
